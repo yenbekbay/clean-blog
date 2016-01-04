@@ -44,11 +44,11 @@ if ((is_post() || is_page()) && page.backdrop) {
           <div class="site-heading">
             <%
             var title = config.title;
-            subtitle = config.description;
+            var subtitle = config.description;
             if (is_post() || is_page()) {
               title = page.title;
               subtitle = page.subtitle;
-            } else {
+            } else if (!is_home()) {
               if (is_archive()) {
                 title = __('Archive');
                 if (is_month()) {
