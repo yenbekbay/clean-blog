@@ -1,0 +1,76 @@
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header page-scroll">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle Navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><%= config.menu_title %></a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <%
+        if (config.menu) {
+          config.menu.forEach(function(item) { %>
+            <li><%- link_to(item.url, __(item.title)) %></li>
+          <% });
+        } %>
+        <li>
+          <a id="feed_text_link" href="/<%= config.feed.path %>"><%= __('Blog Feed') %></a>
+          <a id="feed_link" href="/<%= config.feed.path %>"><i class="fa fa-rss-square"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<%
+var backdrop = config.default_backdrop;
+if ((is_post() || is_page()) && page.backdrop) {
+  backdrop = page.backdrop;
+} %>
+<header class="intro-header" style="background-image: url('/images/<%= backdrop %>');">
+  <div class="header-dimmer"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <% if (is_post()) { %>
+          <div class="post-heading">
+            <h1><%= page.title %></h1>
+          </div>
+        <% } else { %>
+          <div class="site-heading">
+            <%
+            var title = config.title;
+            subtitle = config.description;
+            if (is_post() || is_page()) {
+              title = page.title;
+              subtitle = page.subtitle;
+            } else {
+              if (is_archive()) {
+                title = __('Archive');
+                if (is_month()) {
+                  title += ': ' + page.year + '/' + page.month;
+                } else if (is_year()) {
+                  title += ': ' + page.year;
+                }
+              } else if (is_category()) {
+                title = _('Category') + ': ' + page.category;
+              } else if (is_tag()) {
+                title = __('Tag') + ': ' + page.tag;
+              }
+              subtitle = '';
+            } %>
+            <h1><%= title %></h1>
+            <% if (subtitle) { %>
+              <hr class="small">
+              <span class="subheading"><%= subtitle %></span>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</header>
