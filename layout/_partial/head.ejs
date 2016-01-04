@@ -22,7 +22,24 @@
   %>
   <title><% if (title) { %><%= title %> | <% } %><%= config.title %></title>
   <meta name='viewport' content='width=device-width'>
-  <%- open_graph({twitter_id: config.twitter, twitter_site: config.twitter, google_plus: config.google_plus, fb_admins: config.fb_admins}) %>
+  <%
+  var tags = {
+    twitter_id: config.twitter,
+    twitter_site: config.twitter,
+    google_plus: config.google_plus,
+    fb_admins: config.fb_admins
+  };
+  if (config.meta_image) {
+    tags.image = 'images/' + config.meta_image;
+  }
+  if (config.meta_description) {
+    tags.description = config.meta_description;
+  }
+  if (config.meta_type) {
+    tags.type = config.meta_type;
+  }
+  %>
+  <%- open_graph(tags) %>
   <meta property='profile:first_name' content='<%= config.first_name %>'>
   <meta property='profile:last_name' content='<%= config.last_name %>'>
   <meta property='profile:gender' content='<%= config.gender %>'>
